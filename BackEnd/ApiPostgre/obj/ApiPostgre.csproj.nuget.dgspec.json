@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Narut\\Desktop\\Educa-Diversa\\ATWBackend\\ApiPostgre\\ApiPostgre.csproj": {}
+    "C:\\Users\\Narut\\Desktop\\Educa diversa\\BackEnd\\ApiPostgre\\ApiPostgre.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Narut\\Desktop\\Educa-Diversa\\ATWBackend\\ApiPostgre\\ApiPostgre.csproj": {
+    "C:\\Users\\Narut\\Desktop\\Educa diversa\\BackEnd\\ApiPostgre\\ApiPostgre.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Narut\\Desktop\\Educa-Diversa\\ATWBackend\\ApiPostgre\\ApiPostgre.csproj",
+        "projectUniqueName": "C:\\Users\\Narut\\Desktop\\Educa diversa\\BackEnd\\ApiPostgre\\ApiPostgre.csproj",
         "projectName": "ApiPostgre",
-        "projectPath": "C:\\Users\\Narut\\Desktop\\Educa-Diversa\\ATWBackend\\ApiPostgre\\ApiPostgre.csproj",
+        "projectPath": "C:\\Users\\Narut\\Desktop\\Educa diversa\\BackEnd\\ApiPostgre\\ApiPostgre.csproj",
         "packagesPath": "C:\\Users\\Narut\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Narut\\Desktop\\Educa-Diversa\\ATWBackend\\ApiPostgre\\obj\\",
+        "outputPath": "C:\\Users\\Narut\\Desktop\\Educa diversa\\BackEnd\\ApiPostgre\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Narut\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xOYPpyNqaWs=",
+  "dgSpecHash": "mW51BHcLfw8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Narut\\Desktop\\Educa-Diversa\\ATWBackend\\ApiPostgre\\ApiPostgre.csproj",
+  "projectFilePath": "C:\\Users\\Narut\\Desktop\\Educa diversa\\BackEnd\\ApiPostgre\\ApiPostgre.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Narut\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Narut\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.17\\microsoft.aspnetcore.openapi.8.0.17.nupkg.sha512",
