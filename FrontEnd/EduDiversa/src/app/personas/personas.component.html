@@ -1,0 +1,8 @@
+<mat-card *ngFor="let persona of personas">
+  <mat-card-title>{{ persona.nombre }} {{ persona.apellido_paterno }}</mat-card-title>
+  <mat-card-content>
+    <p>RUT: {{ persona.rut }}</p>
+    <p>Sexo: {{ persona.sexo }}</p>
+    <p>Vigente: {{ persona.vigencia ? 'Sí' : 'No' }}</p>
+  </mat-card-content>
+</mat-card>
