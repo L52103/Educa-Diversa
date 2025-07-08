@@ -26,20 +26,22 @@ namespace ApiPostgre.Migrations
                 {
                     b.Property<int>("Codigo")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("codigo");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Codigo"));
 
                     b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("descripcion");
 
                     b.Property<bool>("Vigencia")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("vigencia");
 
                     b.HasKey("Codigo");
 
-                    b.ToTable("Categorias");
+                    b.ToTable("categorias", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.Foro", b =>
@@ -69,7 +71,7 @@ namespace ApiPostgre.Migrations
 
                     b.HasIndex("CodigoPersona");
 
-                    b.ToTable("Foros");
+                    b.ToTable("foro", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.Modulo", b =>
@@ -97,7 +99,7 @@ namespace ApiPostgre.Migrations
 
                     b.HasIndex("CodigoCategoria");
 
-                    b.ToTable("Modulos");
+                    b.ToTable("modulos", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.Multimedia", b =>
@@ -142,7 +144,7 @@ namespace ApiPostgre.Migrations
 
                     b.HasIndex("PersonaCreadora");
 
-                    b.ToTable("Multimedia");
+                    b.ToTable("multimedia", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.Persona", b =>
@@ -180,7 +182,7 @@ namespace ApiPostgre.Migrations
 
                     b.HasKey("Codigo");
 
-                    b.ToTable("Personas");
+                    b.ToTable("personas", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.PersonaMultimedia", b =>
@@ -198,7 +200,7 @@ namespace ApiPostgre.Migrations
 
                     b.HasIndex("CodigoMultimedia");
 
-                    b.ToTable("PersonaMultimedia");
+                    b.ToTable("persona_multimedia", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.Publicacion", b =>
@@ -228,30 +230,28 @@ namespace ApiPostgre.Migrations
 
                     b.HasIndex("CodigoPersona");
 
-                    b.ToTable("Publicaciones");
+                    b.ToTable("publicacion", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.Usuario", b =>
                 {
                     b.Property<string>("UsuarioId")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("usuario");
 
                     b.Property<int>("CodigoPersona")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("codigo_persona");
 
-                    b.Property<string>("Contrasena")
+                    b.Property<string>("ContrasenaHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("contrasena_hash");
 
-                    b.Property<string>("Correo")
+                    b.Property<string>("TipoUsuario")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("TipoUsuario")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("Vigencia")
-                        .HasColumnType("boolean");
+                        .HasColumnType("text")
+                        .HasColumnName("tipo_usuario");
 
                     b.HasKey("UsuarioId");
 
@@ -279,7 +279,7 @@ namespace ApiPostgre.Migrations
 
                     b.HasIndex("CodigoPersona");
 
-                    b.ToTable("Valoraciones");
+                    b.ToTable("valoraciones", (string)null);
                 });
 
             modelBuilder.Entity("ApiPostgre.Models.Foro", b =>

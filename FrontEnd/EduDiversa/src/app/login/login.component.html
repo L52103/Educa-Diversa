@@ -1,0 +1,168 @@
+
+<style>
+  /* Importamos la fuente 'Inter' para un look moderno */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  /* Contenedor principal que centra el formulario en la página.
+    Usamos :host para aplicar estilos al componente anfitrión.
+  */
+  :host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f3f4f6; /* gris claro */
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Contenedor del formulario */
+  .login-card {
+    width: 100%;
+    max-width: 28rem; /* 448px */
+    padding: 2rem; /* 32px */
+    background-color: #ffffff;
+    border-radius: 1rem; /* 16px */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    margin: 1rem;
+  }
+  
+  /* Encabezado */
+  .login-header {
+    text-align: center;
+    margin-bottom: 2rem; /* 32px */
+  }
+
+  .login-title {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 700;
+    color: #111827; /* gris oscuro */
+  }
+
+  .login-subtitle {
+    margin-top: 0.5rem; /* 8px */
+    color: #4b5563; /* gris medio */
+  }
+
+  /* Estilos para los campos de entrada */
+  .input-field {
+    position: relative;
+    width: 100%;
+    padding: 0.85rem 0.75rem; /* 14px 12px */
+    font-size: 1rem; /* 16px */
+    color: #111827;
+    border: 1px solid #d1d5db; /* gris claro */
+    border-radius: 0.375rem; /* 6px */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    margin-bottom: 1rem; /* 16px */
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: #4f46e5; /* indigo */
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.4);
+  }
+
+  /* Mensaje de error */
+  .error-message {
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 0.875rem; /* 14px */
+    color: #991b1b; /* rojo oscuro */
+    background-color: #fee2e2; /* rojo claro */
+    border-radius: 0.375rem; /* 6px */
+    text-align: center;
+  }
+
+  .error-message span {
+    font-weight: 600;
+  }
+
+  /* Botón de envío */
+  .submit-button {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #4f46e5; /* indigo */
+    border: none;
+    border-radius: 0.375rem; /* 6px */
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .submit-button:hover {
+    background-color: #4338ca; /* indigo más oscuro */
+  }
+
+  .submit-button:disabled {
+    background-color: #a5b4fc; /* indigo claro */
+    cursor: not-allowed;
+  }
+
+</style>
+
+<div class="login-card">
+  
+  <!-- Encabezado del formulario -->
+  <div class="login-header">
+    <h1 class="login-title">Bienvenido de Nuevo</h1>
+    <p class="login-subtitle">Por favor, inicia sesión para continuar.</p>
+  </div>
+
+  <!-- 
+    Formulario de Login
+    - (ngSubmit)="onSubmit()" llama a la función de tu componente cuando el formulario es enviado.
+    - #loginForm="ngForm" es una referencia a la instancia del formulario de Angular.
+  -->
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    
+    <!-- Campo de Usuario ID -->
+    <div>
+      <label for="usuarioId" class="sr-only">ID de Usuario</label>
+      <input 
+        id="usuarioId" 
+        name="usuarioId" 
+        type="text" 
+        required 
+        [(ngModel)]="loginRequest.usuarioId"
+        #usuarioId="ngModel"
+        class="input-field" 
+        placeholder="ID de Usuario">
+    </div>
+
+    <!-- Campo de Contraseña -->
+    <div>
+      <label for="password" class="sr-only">Contraseña</label>
+      <input 
+        id="password" 
+        name="password" 
+        type="password" 
+        required 
+        [(ngModel)]="loginRequest.password"
+        #password="ngModel"
+        class="input-field" 
+        placeholder="Contraseña">
+    </div>
+
+    <!-- 
+      Bloque para mostrar mensajes de error
+      - *ngIf="errorMessage" asegura que este div solo se muestre si la variable 'errorMessage' tiene contenido.
+    -->
+    <div *ngIf="errorMessage" class="error-message" role="alert">
+      <span class="font-medium">Error:</span> {{ errorMessage }}
+    </div>
+
+    <!-- Botón de Envío -->
+    <div style="margin-top: 1.5rem;">
+      <button 
+        type="submit" 
+        [disabled]="!loginForm.form.valid"
+        class="submit-button">
+        Iniciar Sesión
+      </button>
+    </div>
+  </form>
+
+</div>

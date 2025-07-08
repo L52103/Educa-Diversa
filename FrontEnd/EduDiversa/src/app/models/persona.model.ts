@@ -1,10 +1,10 @@
 export interface Persona {
-  codigo: number;
+  codigo?: number;           
   nombre: string;
-  apellido_paterno: string;
-  apellido_materno: string;
-  fecha_nacimiento: string;
-  sexo: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  fechaNacimiento: string;  //  DateTime se mapea a string
+  sexo: string;             // char de 1 carácter (ej "M", "F")
   rut: string;
   vigencia: boolean;
 }

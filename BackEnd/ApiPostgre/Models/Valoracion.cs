@@ -1,17 +1,29 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiPostgre.Models
 {
+    [Table("valoraciones", Schema = "public")]
     public class Valoracion
     {
-        [Key]
-        public int CodigoValoracion { get; set; }  // clave primaria
 
+        [Key]
+        [Column("codigo_valoracion")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CodigoValoracion { get; set; }
+
+
+        [Column("codigo_persona")]
         public int CodigoPersona { get; set; }
 
-        public string Tipo { get; set; } = string.Empty; // tu enum como string o enum C#
 
+        [Column("tipo")]
+        public string Tipo { get; set; } = string.Empty;
+
+
+        [JsonIgnore]
+        [ForeignKey(nameof(CodigoPersona))]
         public Persona? Persona { get; set; }
     }
 }
-

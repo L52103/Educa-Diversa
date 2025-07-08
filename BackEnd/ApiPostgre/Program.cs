@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ApiPostgre.Data;
 using ApiPostgre.Models;
+using Microsoft.AspNetCore.Builder;
+using ApiPostgre.Services; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+//  AGREGAR SERVICIOS CORS 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials(); // Importante para autenticación y cookies/tokens
+        });
+});
+//-
 
 var app = builder.Build();
 
@@ -18,7 +35,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+
+app.UseRouting();
+
+
+app.UseCors("AllowAngularApp");
+
 
 #region CRUD Categoria
 app.MapGet("/categorias", async (AppDbContext db) => await db.Categorias.ToListAsync());
@@ -274,5 +296,23 @@ app.MapDelete("/valoraciones/{id}", async (int id, AppDbContext db) =>
     return Results.Ok();
 });
 #endregion
+
+
+
+#region Login
+app.MapPost("/login", async (LoginRequest request, IAuthService authService) =>
+{
+    var authResult = await authService.Authenticate(request.UsuarioId, request.Password);
+
+    if (authResult == null) // Si la autenticacion fallo
+    {
+        return Results.Unauthorized(); // HTTP 401
+    }
+
+    // Si la autenticacion es exitosa, devuelve el token y el tipo de usuario
+    return Results.Ok(authResult); // Devuelve el objeto AuthResult directamente
+});
+#endregion
+
 
 app.Run();

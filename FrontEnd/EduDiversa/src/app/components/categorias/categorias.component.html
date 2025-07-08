@@ -1,0 +1,67 @@
+<div class="categorias-container">
+  <h2>Gestión de Categorías</h2>
+
+  <div class="section-card add-section">
+    <h3>Añadir Nueva Categoría</h3>
+    <div class="form-group">
+      <label for="newDescripcion">Descripción:</label> 
+      <input type="text" id="newDescripcion" [(ngModel)]="nuevaCategoria.descripcion"
+             placeholder="Ej: Programación, Diseño Gráfico" required>
+    </div>
+    <div class="form-group">
+      <label for="newVigencia">Vigencia:</label>
+      <input type="checkbox" id="newVigencia" [(ngModel)]="nuevaCategoria.vigencia">
+      <span>{{ nuevaCategoria.vigencia ? 'Activa' : 'Inactiva' }}</span>
+    </div>
+    <button (click)="addCategoria()" [disabled]="!nuevaCategoria.descripcion.trim()">Añadir Categoría</button>
+  </div>
+
+  <hr>
+
+  <div class="section-card list-section">
+    <h3>Lista de Categorías</h3>
+    <div *ngIf="categorias.length > 0; else noCategorias">
+      <table class="categorias-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Vigencia</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let categoria of categorias">
+            <td>{{ categoria.codigo }}</td>
+            <td>{{ categoria.descripcion }}</td>
+            <td>{{ categoria.vigencia ? 'Sí' : 'No' }}</td>
+            <td>
+              <button class="edit-btn" (click)="editCategoria(categoria)">Editar</button>
+              <button class="delete-btn" (click)="deleteCategoria(categoria.codigo!)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noCategorias>
+      <p class="no-data-message">No hay categorías para mostrar. ¡Añade una arriba!</p>
+    </ng-template>
+  </div>
+
+  <hr>
+
+  <div *ngIf="categoriaEditando" class="section-card edit-section">
+    <h3>Editar Categoría (Código: {{ categoriaEditando.codigo }})</h3>
+    <div class="form-group">
+      <label for="editDescripcion">Descripción:</label>
+      <input type="text" id="editDescripcion" [(ngModel)]="categoriaEditando.descripcion" name="editDescripcion" required> 
+    </div>
+    <div class="form-group">
+      <label for="editVigencia">Vigencia:</label>
+      <input type="checkbox" id="editVigencia" [(ngModel)]="categoriaEditando.vigencia">
+      <span>{{ categoriaEditando.vigencia ? 'Activa' : 'Inactiva' }}</span>
+    </div>
+    <button class="save-btn" (click)="updateCategoria()" [disabled]="!categoriaEditando.descripcion.trim()">Guardar Cambios</button>
+    <button class="cancel-btn" (click)="categoriaEditando = null">Cancelar</button>
+  </div>
+</div>

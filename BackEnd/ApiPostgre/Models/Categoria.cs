@@ -1,17 +1,21 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema; 
 
 namespace ApiPostgre.Models
 {
     public class Categoria
     {
-        [Key]
+        [Key] 
+        [Column("codigo")] 
         public int Codigo { get; set; }
-        
-        public string Descripcion { get; set; } = string.Empty;
-        
+
+        [Column("descripcion")] 
+        public string? Descripcion { get; set; } 
+
+        [Column("vigencia")] 
         public bool Vigencia { get; set; }
 
-        public ICollection<Modulo>? Modulos { get; set; }
+        
+        public ICollection<Modulo>? Modulos { get; set; } 
     }
 }
