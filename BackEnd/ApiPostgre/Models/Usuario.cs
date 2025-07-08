@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using BCryptNet = BCrypt.Net.BCrypt;      
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace ApiPostgre.Models
 {
@@ -35,11 +35,11 @@ namespace ApiPostgre.Models
             set
             {
                 if (!string.IsNullOrWhiteSpace(value))
-                    ContrasenaHash = BCryptNet.HashPassword(value);   
+                    ContrasenaHash = BCryptNet.HashPassword(value);
             }
         }
 
         public bool VerificarContrasena(string intento)
-            => BCryptNet.Verify(intento, ContrasenaHash);            
+            => BCryptNet.Verify(intento, ContrasenaHash);
     }
 }

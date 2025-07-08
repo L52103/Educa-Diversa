@@ -7,11 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { CategoriasComponent } from './components/categorias/categorias.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { DocenteDashboardComponent } from './docente-dashboard/docente-dashboard.component'; 
-import { FamiliaDashboardComponent } from './familia-dashboard/familia-dashboard.component'; 
+import { FamiliaDashboardComponent } from './familia-dashboard/familia-dashboard.component';
 
 @NgModule({
   declarations: [
-    AppComponent 
+    AppComponent,
   ],
   imports: [
     BrowserModule,

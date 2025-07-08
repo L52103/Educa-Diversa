@@ -26,23 +26,23 @@ export class LoginComponent {
     this.authService.login(this.loginRequest).subscribe({
       next: (response) => {
         console.log('Login successful', response);
-        this.errorMessage = ''; // Limpia cualquier mensaje de error
+        this.errorMessage = ''; 
 
         // Redirección condicional basada en el tipo de usuario
         switch (response.tipoUsuario) {
-          case TipoUsuarioEnum.Admin:
-            this.router.navigate(['/admin-dashboard']);
-            break;
-          case TipoUsuarioEnum.Docente:
-            this.router.navigate(['/docente-dashboard']);
-            break;
-          case TipoUsuarioEnum.Familia:
-            this.router.navigate(['/familia-dashboard']);
-            break;
-          default:
-            // Fallback por si el tipo de usuario no está definido o es inesperado
-            this.router.navigate(['/']); 
-            break;
+                case 'Admin': 
+                  this.router.navigate(['/admin-dashboard']);
+                  break;
+                case 'Docente': 
+                  this.router.navigate(['/docente-dashboard']);
+                  break;
+                case 'Familia': 
+                  this.router.navigate(['/familia-dashboard']);
+                  break;
+                default:
+                  
+                  this.router.navigate(['/']); 
+                  break;
         }
       },
       error: (err) => {

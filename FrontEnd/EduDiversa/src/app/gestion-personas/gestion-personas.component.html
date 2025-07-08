@@ -1,0 +1,43 @@
+<div class="gestion-container">
+  <h2>Gestión de Personas</h2>
+  
+  <div class="form-card">
+    <h3>{{ modoEdicion ? 'Editar Persona' : 'Crear Persona' }}</h3>
+    <input type="text" [(ngModel)]="personaEnEdicion.nombre" placeholder="Nombre">
+    <input type="text" [(ngModel)]="personaEnEdicion.apellidoPaterno" placeholder="Apellido Paterno">
+    <input type="text" [(ngModel)]="personaEnEdicion.apellidoMaterno" placeholder="Apellido Materno">
+    <input type="text" [(ngModel)]="personaEnEdicion.rut" placeholder="RUT">
+    <input type="date" [(ngModel)]="personaEnEdicion.fechaNacimiento">
+    <select [(ngModel)]="personaEnEdicion.sexo">
+      <option [ngValue]="undefined" disabled>Sexo</option>
+      <option value="M">Masculino</option>
+      <option value="F">Femenino</option>
+    </select>
+    <label><input type="checkbox" [(ngModel)]="personaEnEdicion.vigencia"> Vigente</label>
+    
+    <button (click)="guardarPersona()">{{ modoEdicion ? 'Actualizar' : 'Crear' }}</button>
+    <button *ngIf="modoEdicion" (click)="finalizarEdicion()">Cancelar</button>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Nombre Completo</th>
+        <th>RUT</th>
+        <th>Vigencia</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of personas">
+        <td>{{ p.nombre }} {{ p.apellidoPaterno }} {{ p.apellidoMaterno }}</td>
+        <td>{{ p.rut }}</td>
+        <td>{{ p.vigencia ? 'Sí' : 'No' }}</td>
+        <td>
+          <button (click)="iniciarEdicion(p)">Editar</button>
+          <button (click)="eliminarPersona(p.codigo!)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -12,42 +12,41 @@ export class CategoriaService {
 
   constructor(private http: HttpClient) { } // inyecta el servicio HttpClient
 
-  /** 
-    Obtiene todas las categorías de la API.
-  */
-
+  
+  // categorías de la API
+  
   getCategorias(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(`${this.apiUrl}/categorias`);
   }
 
-  /**
-    Obtiene una categoría específica por su código.
-  */
+ 
+  // categoria especifica
+  
   getCategoriaById(id: number): Observable<Categoria> {
     return this.http.get<Categoria>(`${this.apiUrl}/categorias/${id}`);
   }
 
-  /**
-   Crea una nueva categoría en la API.
-  */
+
+  // nueva categoria en la API
 
   createCategoria(categoria: Categoria): Observable<Categoria> {
+
     // Se envia el objeto categoria al endpoint /categorias
     return this.http.post<Categoria>(`${this.apiUrl}/categorias`, categoria);
   }
 
-  /**
-   Actualiza una categoría existente en la API.
-  */
+
+  // Actualiza una categoría existente 
+
 
   updateCategoria(id: number, categoria: Categoria): Observable<Categoria> {
-    // El ID se pasa en la URL, y el objeto categoria completo en el cuerpo de la petición.
+
     return this.http.put<Categoria>(`${this.apiUrl}/categorias/${id}`, categoria);
   }
 
-  /**
-   Elimina una categoría de la API.
-  */
+
+   // Elimina una categoría de la API.
+  
   deleteCategoria(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/categorias/${id}`);
   }

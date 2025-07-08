@@ -1,0 +1,42 @@
+<div class="gestion-container">
+  <h2>Gestión de Usuarios</h2>
+
+  <div class="form-card">
+    <h3>{{ modoEdicion ? 'Editar Usuario' : 'Crear Usuario' }}</h3>
+    <input type="text" [(ngModel)]="usuarioEnEdicion.usuarioId" placeholder="ID de Usuario" [disabled]="modoEdicion">
+    <select [(ngModel)]="usuarioEnEdicion.codigoPersona" required>
+  <option [ngValue]="undefined" disabled>Selecciona una persona</option>
+  <option *ngFor="let persona of personas" [value]="persona.codigo">
+    {{ persona.nombre }} {{ persona.apellidoPaterno }} (Código: {{ persona.codigo }})
+  </option>
+</select>
+    <input type="password" [(ngModel)]="usuarioEnEdicion.contrasena" placeholder="Nueva Contraseña (dejar en blanco para no cambiar)">
+    <select [(ngModel)]="usuarioEnEdicion.tipoUsuario">
+      <option *ngFor="let tipo of tiposUsuario" [value]="tipo">{{ tipo }}</option>
+    </select>
+    <button (click)="guardarUsuario()">{{ modoEdicion ? 'Actualizar' : 'Crear' }}</button>
+    <button *ngIf="modoEdicion" (click)="finalizarEdicion()">Cancelar</button>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID Usuario</th>
+        <th>Código Persona</th>
+        <th>Tipo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of usuarios">
+        <td>{{ user.usuarioId }}</td>
+        <td>{{ user.codigoPersona }}</td>
+        <td>{{ user.tipoUsuario }}</td>
+        <td>
+          <button (click)="iniciarEdicion(user)">Editar</button>
+          <button (click)="eliminarUsuario(user.usuarioId)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

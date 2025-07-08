@@ -1,4 +1,3 @@
-
 export enum TipoUsuarioEnum {
   Admin = 0,
   Docente = 1,
@@ -7,5 +6,6 @@ export enum TipoUsuarioEnum {
 
 export interface AuthResponse {
   token: string;
-  tipoUsuario: TipoUsuarioEnum; // coincidir con 'tipoUsuario' del backend
+  tipoUsuario: string;
+  codigoPersona: number;
 }

@@ -4,8 +4,8 @@ export interface Multimedia {
   descripcion: string;
   formato: string;
   url: string;
-  codigoModulo: number;     // Clave foranea a Modulo
-  personaCreadora: number;  // Clave foranea a Persona (la que creó la multimedia)
+  codigoModulo: number;     
+  personaCreadora: number;  
   vigencia: boolean;
-  fecha: string;            // DateTime a string 
+  fecha: string;            
 }

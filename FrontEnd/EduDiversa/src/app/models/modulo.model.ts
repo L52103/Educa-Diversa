@@ -1,7 +1,7 @@
 export interface Modulo {
   codigo?: number;           
   descripcion: string;
-  codigoCategoria: number;  // Clave foranea a Categoria
+  codigoCategoria: number;  
   vigencia: boolean;
-  valoracion: number;       // decimal a number
+  valoracion: number;       
 }

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-categorias', // El nombre etiqueta HTML para usar este componente
+  selector: 'app-categorias',
   templateUrl: './categorias.component.html', 
   styleUrls: ['./categorias.component.css'],    
   standalone: true,
@@ -13,20 +13,19 @@ import { FormsModule } from '@angular/forms';
 })
 export class CategoriasComponent implements OnInit {
   categorias: Categoria[] = [];
-  nuevaCategoria: Categoria = { descripcion: '', vigencia: true }; // Objeto para el formulario de añadir
-  categoriaEditando: Categoria | null = null; // Objeto para el formulario de edicion, es null si no se esta editando nada
+  nuevaCategoria: Categoria = { descripcion: '', vigencia: true }; 
+  categoriaEditando: Categoria | null = null; // Objeto para edicion formulario
 
   //inyeccion CategoriaService.
   constructor(private categoriaService: CategoriaService) { }
 
  
   ngOnInit(): void {
-    this.loadCategorias(); // Llamada función para cargar las categorías al iniciar el componente
+    this.loadCategorias(); // carga las categorias al inicio
   }
 
   /**
-   * Carga todas las categorías desde la API usando CategoriaService.
-   * Los datos se suscriben y se asignan al array 'categorias'.
+  Carga todas las categorías desde la API usando CategoriaService.
   */
   loadCategorias(): void {
     this.categoriaService.getCategorias().subscribe(
@@ -35,13 +34,13 @@ export class CategoriasComponent implements OnInit {
         console.log('Categorías cargadas exitosamente:', this.categorias);
       },
       (error) => {
-        console.error('Error al cargar categorías:', error); // Maneja cualquier error en la petición
+        console.error('Error al cargar categorías:', error); // Maneja de error
       }
     );
   }
 
   /**
-   Añade una nueva categoria utilizando los datos del formulario 'nuevaCategoria'.
+   Añade una nueva categoria utilizando los datos del formulario 'nuevaCategoria'
    Despues de añadirla, recarga la lista y limpia el formulario.
    */
   addCategoria(): void {
@@ -54,7 +53,7 @@ export class CategoriasComponent implements OnInit {
     this.categoriaService.createCategoria(this.nuevaCategoria).subscribe(
       (data: Categoria) => {
         console.log('Categoría creada:', data);
-        this.loadCategorias(); // Vuelve a cargar todas las categorías para ver la nueva
+        this.loadCategorias(); // Vuelve a cargar todas las categorías
         this.nuevaCategoria = { descripcion: '', vigencia: true }; // Resetea el objeto del formulario
       },
       (error) => {
@@ -65,17 +64,14 @@ export class CategoriasComponent implements OnInit {
   }
 
   /**
-   se cargan los datos de la categoría seleccionada.
-   Se crea una copia para no modificar directamente el objeto original en la lista.
-   
+   se cargan los datos de la categoría seleccionada y se crea una copia para no modificar directamente el objeto original en la lista
    */
   editCategoria(categoria: Categoria): void {
-    this.categoriaEditando = { ...categoria }; // Copia la categoría para editarla
+    this.categoriaEditando = { ...categoria }; // Copia la categoria
   }
 
   /**
-   * Actualiza una categoría existente con los datos del formulario 'categoriaEditando'.
-   * Después de actualizarla, recarga la lista y oculta el formulario de edición.
+   Despues de actualizarla, recarga la lista y oculta el formulario de edición
    */
   updateCategoria(): void {
     // Verifica que haya una categoría en edición y que tenga un código válido
@@ -97,15 +93,15 @@ export class CategoriasComponent implements OnInit {
   }
 
   /**
-    Elimina una categoría de la API.
-    Pide confirmación al usuario antes de proceder.
+    Elimina una categoría de la API con confrmacion
+    
    */
   deleteCategoria(id: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar esta categoría?')) {
       this.categoriaService.deleteCategoria(id).subscribe(
         () => {
           console.log('Categoría eliminada:', id);
-          this.loadCategorias(); // Vuelve a cargar todas las categorías
+          this.loadCategorias(); // Vuelve a cargar todas las categorias
         },
         (error) => {
           console.error('Error al eliminar categoría:', error);

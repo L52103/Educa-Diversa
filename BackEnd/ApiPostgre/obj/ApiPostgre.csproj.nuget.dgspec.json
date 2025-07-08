@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Narut\\Educa-diversa-1\\BackEnd\\ApiPostgre\\ApiPostgre.csproj": {}
+    "C:\\Users\\Narut\\OneDrive\\Escritorio\\EducaDiversa\\ApiPostgre\\ApiPostgre.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Narut\\Educa-diversa-1\\BackEnd\\ApiPostgre\\ApiPostgre.csproj": {
+    "C:\\Users\\Narut\\OneDrive\\Escritorio\\EducaDiversa\\ApiPostgre\\ApiPostgre.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Narut\\Educa-diversa-1\\BackEnd\\ApiPostgre\\ApiPostgre.csproj",
+        "projectUniqueName": "C:\\Users\\Narut\\OneDrive\\Escritorio\\EducaDiversa\\ApiPostgre\\ApiPostgre.csproj",
         "projectName": "ApiPostgre",
-        "projectPath": "C:\\Users\\Narut\\Educa-diversa-1\\BackEnd\\ApiPostgre\\ApiPostgre.csproj",
+        "projectPath": "C:\\Users\\Narut\\OneDrive\\Escritorio\\EducaDiversa\\ApiPostgre\\ApiPostgre.csproj",
         "packagesPath": "C:\\Users\\Narut\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Narut\\Educa-diversa-1\\BackEnd\\ApiPostgre\\obj\\",
+        "outputPath": "C:\\Users\\Narut\\OneDrive\\Escritorio\\EducaDiversa\\ApiPostgre\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Narut\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,9 +43,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "BCrypt.Net-Next": {
+            "BCrypt.Net-Core": {
               "target": "Package",
-              "version": "[4.0.3, )"
+              "version": "[1.6.0, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",

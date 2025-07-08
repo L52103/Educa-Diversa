@@ -1,0 +1,39 @@
+<div class="gestion-container">
+  <h2>Gestión de Módulos</h2>
+  
+  <div class="form-card">
+    <h3>{{ modoEdicion ? 'Editar Módulo' : 'Crear Módulo' }}</h3>
+    <input type="text" [(ngModel)]="moduloEnEdicion.descripcion" placeholder="Descripción del Módulo">
+    <select [(ngModel)]="moduloEnEdicion.codigoCategoria">
+        <option [ngValue]="undefined" disabled>Selecciona una categoría</option>
+        <option *ngFor="let cat of categorias" [value]="cat.codigo">{{ cat.descripcion }}</option>
+    </select>
+    <label>
+      <input type="checkbox" [(ngModel)]="moduloEnEdicion.vigencia"> Vigente
+    </label>
+    <button (click)="guardarModulo()">{{ modoEdicion ? 'Actualizar' : 'Crear' }}</button>
+    <button *ngIf="modoEdicion" (click)="finalizarEdicion()">Cancelar</button>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Descripción</th>
+        <th>Categoría</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mod of modulos">
+        <td>{{ mod.codigo }}</td>
+        <td>{{ mod.descripcion }}</td>
+        <td>{{ mod.categoriaDescripcion }}</td>
+        <td>
+          <button (click)="iniciarEdicion(mod)">Editar</button>
+          <button (click)="eliminarModulo(mod.codigo)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

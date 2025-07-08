@@ -1,3 +1,112 @@
-<h2>Bienvenido, Docente!</h2>
-<p>Esta es la página de inicio para los docentes.</p>
-<button (click)="logout()">Cerrar Sesión</button>
+<div class="dashboard-container">
+  <div *ngIf="vistaActual === 'lista'">
+    <header class="header">
+      <h1>Portal Docente - Módulos</h1>
+      <button (click)="logout()">LOGOUT</button>
+    </header>
+    <div class="filtros-container card">
+      <div class="form-group">
+        <label for="filtro_categorias">Filtro, categorías</label>
+        <select id="filtro_categorias" [(ngModel)]="filtroCategoria" (change)="filtrarYBuscar()">
+          <option value="">-- Todas --</option>
+          <option *ngFor="let cat of categorias" [value]="cat.codigo">{{ cat.descripcion }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="busqueda">Búsqueda</label>
+        <input type="text" id="busqueda" [(ngModel)]="terminoBusqueda" (input)="filtrarYBuscar()" placeholder="Buscar por nombre...">
+      </div>
+    </div>
+    <div class="modulos-grid">
+      <div *ngFor="let modulo of modulosFiltrados" class="modulo-card card" (click)="verDetalleModulo(modulo.codigo)">
+        <h4>{{ modulo.descripcion }}</h4>
+        <p>Categoría: {{ modulo.categoriaDescripcion }}</p>
+      </div>
+       <div *ngIf="modulosFiltrados.length === 0" class="card">
+        <p>No se encontraron módulos con los filtros actuales.</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="vistaActual === 'detalle' && selectedModule">
+     <header class="header">
+      <h3>Módulo: {{ selectedModule.descripcion }}</h3>
+      <div>
+        <button (click)="regresar('lista')">ATRAS</button>
+        <button (click)="logout()">LOGOUT</button>
+      </div>
+    </header>
+
+    <div class="card">
+      <div class="card-header">
+        <h4>Contenido del Módulo</h4>
+        <button class="btn-add" (click)="abrirFormulario()">Añadir Contenido</button>
+      </div>
+
+      <div *ngIf="showMultimediaForm" class="multimedia-form">
+        <h5>{{ multimediaEnEdicion?.codigo ? 'Editar' : 'Nuevo' }} Contenido</h5>
+        <div class="form-group">
+          <label>Nombre:</label>
+          <input type="text" [(ngModel)]="multimediaEnEdicion!.nombre">
+        </div>
+        <div class="form-group">
+          <label>Descripción:</label>
+          <textarea [(ngModel)]="multimediaEnEdicion!.descripcion"></textarea>
+        </div>
+        <div class="form-group">
+          <label>URL:</label>
+          <input type="text" [(ngModel)]="multimediaEnEdicion!.url">
+        </div>
+        <div class="form-actions">
+          <button class="btn-save" (click)="guardarMultimedia()">Guardar</button>
+          <button class="btn-cancel" (click)="cerrarFormulario()">Cancelar</button>
+        </div>
+      </div>
+
+      <div *ngIf="!showMultimediaForm">
+        <div *ngIf="!contenidoMultimedia.length" class="empty-state">No hay contenido en este módulo.</div>
+        <ul class="multimedia-list">
+          <li *ngFor="let item of contenidoMultimedia">
+            <div class="item-info">
+              <strong>{{ item.nombre }}</strong>
+              <p>{{ item.descripcion }}</p>
+            </div>
+            <div class="item-actions">
+              <button class="btn-edit" (click)="abrirFormulario(item)">Editar</button>
+              <button class="btn-delete" (click)="eliminarMultimedia(item.codigo!)">Borrar</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+     <div class="card">
+      <button class="btn-debate" (click)="cargarDebate()">DEBATE</button>
+     </div>
+  </div>
+
+  <div *ngIf="vistaActual === 'debate'">
+    <header class="header">
+      <h3>Debate del Módulo</h3>
+      <div>
+        <button (click)="regresar('detalle')">ATRAS</button>
+        <button (click)="logout()">LOGOUT</button>
+      </div>
+    </header>
+    <div class="debate-container card">
+      <h4>NUEVO COMENTARIO</h4>
+      <textarea [(ngModel)]="nuevoComentario" placeholder="Escribe tu comentario aquí..."></textarea>
+      <button (click)="enviarComentario()" [disabled]="!nuevoComentario.trim()">ENVIAR</button>
+    </div>
+    <div class="comentarios-lista">
+      <div *ngFor="let pub of publicaciones" class="comentario-card card">
+        <strong>{{ pub.autor }}</strong>
+        <p>{{ pub.descripcion }}</p>
+        <small>{{ pub.fecha | date:'short' }}</small>
+      </div>
+       <div *ngIf="publicaciones.length === 0" class="card">
+        <p>No hay comentarios en este debate. ¡Sé el primero en participar!</p>
+      </div>
+    </div>
+  </div>
+</div>

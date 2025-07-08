@@ -1,3 +1,44 @@
-<h2>Bienvenido, Administrador!</h2>
-<p>Esta es la página de inicio para los administradores.</p>
-<button (click)="logout()">Cerrar Sesión</button>
+<div class="admin-container">
+  <header class="admin-header">
+    <h1>Panel de Administrador</h1>
+    <div>
+      <button *ngIf="vistaActual !== 'menu'" (click)="cambiarVista('menu')">⬅️ Volver Atrás</button>
+      <button (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <div *ngIf="vistaActual === 'menu'" class="menu-container">
+    <button class="menu-button" (click)="cambiarVista('personas')">
+      <span class="icon">👥</span>
+      Gestión de Personas
+    </button>
+    <button class="menu-button" (click)="cambiarVista('usuarios')">
+      <span class="icon">👤</span>
+      Gestión de Usuarios
+    </button>
+    <button class="menu-button" (click)="cambiarVista('modulos')">
+      <span class="icon">📚</span>
+      Gestión de Módulos
+    </button>
+    <button class="menu-button" (click)="cambiarVista('docente')">
+      <span class="icon">🧑‍🏫</span>
+      Ver Portal Docente
+    </button>
+  </div>
+
+  <div *ngIf="vistaActual === 'personas'">
+    <app-gestion-personas></app-gestion-personas>
+  </div>
+
+  <div *ngIf="vistaActual === 'usuarios'">
+    <app-gestion-usuarios></app-gestion-usuarios>
+  </div>
+
+  <div *ngIf="vistaActual === 'modulos'">
+    <app-gestion-modulos></app-gestion-modulos>
+  </div>
+
+  <div *ngIf="vistaActual === 'docente'">
+    <app-docente-dashboard></app-docente-dashboard>
+  </div>
+</div>

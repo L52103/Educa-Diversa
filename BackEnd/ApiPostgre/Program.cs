@@ -2,8 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using ApiPostgre.Data;
 using ApiPostgre.Models;
 using Microsoft.AspNetCore.Builder;
-using ApiPostgre.Services; 
-
+using ApiPostgre.Services;
+using System.Text.Json.Serialization;
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -13,19 +14,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-//  AGREGAR SERVICIOS CORS 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
         builder =>
         {
             builder.WithOrigins("http://localhost:4200")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials(); // Importante para autenticación y cookies/tokens
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
         });
 });
-//-
 
 var app = builder.Build();
 
@@ -35,12 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseRouting();
-
-
 app.UseCors("AllowAngularApp");
-
 
 #region CRUD Categoria
 app.MapGet("/categorias", async (AppDbContext db) => await db.Categorias.ToListAsync());
@@ -70,35 +70,67 @@ app.MapDelete("/categorias/{id}", async (int id, AppDbContext db) =>
 #endregion
 
 #region CRUD Foro
-app.MapGet("/foros", async (AppDbContext db) => await db.Foros.ToListAsync());
+
+app.MapGet("/foros", async (AppDbContext db) => {
+    var foros = await db.Foros
+        .Include(f => f.Modulo)
+        .Include(f => f.Persona)
+        .Select(f => new {
+            f.Codigo,
+            f.Estado,
+            f.Fecha,
+            ModuloDescripcion = f.Modulo != null ? f.Modulo.Descripcion : "Sin Módulo",
+            AutorNombre = f.Persona != null ? f.Persona.Nombre + " " + f.Persona.ApellidoPaterno : "Anónimo"
+        })
+        .ToListAsync();
+    return Results.Ok(foros);
+});
+
+
 app.MapGet("/foros/{id}", async (int id, AppDbContext db) => await db.Foros.FindAsync(id));
 app.MapPost("/foros", async (Foro f, AppDbContext db) =>
 {
+    f.Fecha = DateTime.UtcNow;
+    f.Estado = "Abierto";
     db.Foros.Add(f);
     await db.SaveChangesAsync();
     return Results.Created($"/foros/{f.Codigo}", f);
 });
-app.MapPut("/foros/{id}", async (int id, Foro input, AppDbContext db) =>
-{
-    var foro = await db.Foros.FindAsync(id);
-    if (foro is null) return Results.NotFound();
-    db.Entry(foro).CurrentValues.SetValues(input);
-    await db.SaveChangesAsync();
-    return Results.Ok(foro);
-});
-app.MapDelete("/foros/{id}", async (int id, AppDbContext db) =>
-{
-    var foro = await db.Foros.FindAsync(id);
-    if (foro is null) return Results.NotFound();
-    db.Foros.Remove(foro);
-    await db.SaveChangesAsync();
-    return Results.Ok();
-});
+
 #endregion
 
 #region CRUD Modulo
-app.MapGet("/modulos", async (AppDbContext db) => await db.Modulos.ToListAsync());
-app.MapGet("/modulos/{id}", async (int id, AppDbContext db) => await db.Modulos.FindAsync(id));
+app.MapGet("/modulos", async (AppDbContext db) =>
+{
+    var modulos = await db.Modulos
+        .Include(m => m.Categoria)
+        .Select(m => new {
+            m.Codigo,
+            m.Descripcion,
+            m.Vigencia,
+            m.Valoracion,
+            CodigoCategoria = m.CodigoCategoria,
+            CategoriaDescripcion = m.Categoria != null ? m.Categoria.Descripcion : "Sin categoría"
+        })
+        .ToListAsync();
+    return Results.Ok(modulos);
+});
+app.MapGet("/modulos/{id}", async (int id, AppDbContext db) =>
+{
+    var modulo = await db.Modulos
+        .Where(m => m.Codigo == id)
+        .Select(m => new {
+            m.Codigo,
+            m.Descripcion,
+            m.CodigoCategoria,
+            m.Vigencia,
+            m.Valoracion
+        })
+        .FirstOrDefaultAsync();
+
+    if (modulo is null) return Results.NotFound();
+    return Results.Ok(modulo);
+});
 app.MapPost("/modulos", async (Modulo m, AppDbContext db) =>
 {
     db.Modulos.Add(m);
@@ -124,14 +156,24 @@ app.MapDelete("/modulos/{id}", async (int id, AppDbContext db) =>
 #endregion
 
 #region CRUD Multimedia
+app.MapGet("/modulos/{moduloId}/multimedia", async (int moduloId, AppDbContext db) =>
+{
+    return await db.Multimedia
+        .Where(m => m.CodigoModulo == moduloId && m.Vigencia)
+        .ToListAsync();
+});
+
 app.MapGet("/multimedia", async (AppDbContext db) => await db.Multimedia.ToListAsync());
+
 app.MapGet("/multimedia/{id}", async (int id, AppDbContext db) => await db.Multimedia.FindAsync(id));
+
 app.MapPost("/multimedia", async (Multimedia m, AppDbContext db) =>
 {
     db.Multimedia.Add(m);
     await db.SaveChangesAsync();
     return Results.Created($"/multimedia/{m.Codigo}", m);
 });
+
 app.MapPut("/multimedia/{id}", async (int id, Multimedia input, AppDbContext db) =>
 {
     var multimedia = await db.Multimedia.FindAsync(id);
@@ -140,6 +182,7 @@ app.MapPut("/multimedia/{id}", async (int id, Multimedia input, AppDbContext db)
     await db.SaveChangesAsync();
     return Results.Ok(multimedia);
 });
+
 app.MapDelete("/multimedia/{id}", async (int id, AppDbContext db) =>
 {
     var multimedia = await db.Multimedia.FindAsync(id);
@@ -149,7 +192,6 @@ app.MapDelete("/multimedia/{id}", async (int id, AppDbContext db) =>
     return Results.Ok();
 });
 #endregion
-
 #region CRUD Persona
 app.MapGet("/personas", async (AppDbContext db) => await db.Personas.ToListAsync());
 app.MapGet("/personas/{id}", async (int id, AppDbContext db) => await db.Personas.FindAsync(id));
@@ -208,11 +250,61 @@ app.MapDelete("/personaMultimedia/{codigoPersona}/{codigoMultimedia}", async (in
 });
 #endregion
 
-#region CRUD Publicacion
+#region CRUD Publicacion (LÓGICA MEJORADA)
+
+// Obtiene las publicaciones de un foro y lo crea si no existe
+app.MapGet("/foros/{foroId}/publicaciones", async (int foroId, AppDbContext db) =>
+{
+    var foro = await db.Foros.FirstOrDefaultAsync(f => f.CodigoModulo == foroId);
+
+    // Si el foro no existe, se crea
+    if (foro == null)
+    {
+        // Buscamos si el módulo realmente existe para evitar errores.
+        var moduloExiste = await db.Modulos.AnyAsync(m => m.Codigo == foroId);
+        if (!moduloExiste)
+        {
+            return Results.NotFound($"El módulo con código {foroId} no existe.");
+        }
+
+        // nuevo foro asociado al módulo
+        var nuevoForo = new Foro
+        {
+            CodigoModulo = foroId, 
+            CodigoPersona = 1000,
+            Fecha = DateTime.UtcNow,
+            Estado = "Abierto"
+        };
+        db.Foros.Add(nuevoForo);
+        await db.SaveChangesAsync();
+
+       
+        foro = nuevoForo;
+    }
+
+    //  sus publicaciones.
+    var publicaciones = await db.Publicaciones
+        .Where(p => p.CodigoForo == foro.Codigo) 
+        .Include(p => p.Persona)
+        .Select(p => new {
+            p.Codigo,
+            p.Descripcion,
+            p.Fecha,
+            p.CodigoForo,
+            Autor = p.Persona != null ? p.Persona.Nombre + " " + p.Persona.ApellidoPaterno : "Anónimo"
+        })
+        .OrderBy(p => p.Fecha)
+        .ToListAsync();
+
+    return Results.Ok(publicaciones);
+});
+
+
 app.MapGet("/publicaciones", async (AppDbContext db) => await db.Publicaciones.ToListAsync());
 app.MapGet("/publicaciones/{id}", async (int id, AppDbContext db) => await db.Publicaciones.FindAsync(id));
 app.MapPost("/publicaciones", async (Publicacion p, AppDbContext db) =>
 {
+    p.Fecha = DateTime.UtcNow;
     db.Publicaciones.Add(p);
     await db.SaveChangesAsync();
     return Results.Created($"/publicaciones/{p.Codigo}", p);
@@ -233,6 +325,7 @@ app.MapDelete("/publicaciones/{id}", async (int id, AppDbContext db) =>
     await db.SaveChangesAsync();
     return Results.Ok();
 });
+
 #endregion
 
 #region CRUD Usuario
@@ -297,22 +390,18 @@ app.MapDelete("/valoraciones/{id}", async (int id, AppDbContext db) =>
 });
 #endregion
 
-
-
 #region Login
 app.MapPost("/login", async (LoginRequest request, IAuthService authService) =>
 {
     var authResult = await authService.Authenticate(request.UsuarioId, request.Password);
 
-    if (authResult == null) // Si la autenticacion fallo
+    if (authResult == null)
     {
-        return Results.Unauthorized(); // HTTP 401
+        return Results.Unauthorized();
     }
-
-    // Si la autenticacion es exitosa, devuelve el token y el tipo de usuario
-    return Results.Ok(authResult); // Devuelve el objeto AuthResult directamente
+    
+    return Results.Ok(authResult);
 });
 #endregion
-
 
 app.Run();

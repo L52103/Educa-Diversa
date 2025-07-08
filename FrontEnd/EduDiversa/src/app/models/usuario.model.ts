@@ -1,7 +1,7 @@
 export enum TipoUsuarioEnum {
-  admin = 0,
-  personal = 1,
-  normal = 2
+  Admin = 0,
+  Docente = 1,
+  Familia = 2
 }
 
 export interface Usuario {

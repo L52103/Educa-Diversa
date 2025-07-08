@@ -3,8 +3,8 @@ export interface Persona {
   nombre: string;
   apellidoPaterno: string;
   apellidoMaterno: string;
-  fechaNacimiento: string;  //  DateTime se mapea a string
-  sexo: string;             // char de 1 carácter (ej "M", "F")
+  fechaNacimiento: string;  
+  sexo: string;             
   rut: string;
   vigencia: boolean;
 }

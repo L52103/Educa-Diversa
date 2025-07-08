@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xRm2btFvGlI=",
+  "dgSpecHash": "85X3aoaSBX0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Narut\\Educa-diversa-1\\BackEnd\\ApiPostgre\\ApiPostgre.csproj",
+  "projectFilePath": "C:\\Users\\Narut\\OneDrive\\Escritorio\\EducaDiversa\\ApiPostgre\\ApiPostgre.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Narut\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\Narut\\.nuget\\packages\\bcrypt.net-core\\1.6.0\\bcrypt.net-core.1.6.0.nupkg.sha512",
     "C:\\Users\\Narut\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Narut\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.17\\microsoft.aspnetcore.openapi.8.0.17.nupkg.sha512",
     "C:\\Users\\Narut\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

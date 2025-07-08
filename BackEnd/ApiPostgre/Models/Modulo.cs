@@ -24,7 +24,6 @@ public class Modulo
     [Column("valoracion")]
     public decimal Valoracion { get; set; }
 
-
     [JsonIgnore] public Categoria? Categoria { get; set; }
     [JsonIgnore] public ICollection<Multimedia>? Multimedia { get; set; }
     [JsonIgnore] public ICollection<Foro>? Foros { get; set; }
