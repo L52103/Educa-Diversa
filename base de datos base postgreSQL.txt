@@ -1,6 +1,4 @@
--- ##################################################################
--- CONFIGURACIÓN DE LA SESIÓN
--- ##################################################################
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -16,18 +14,16 @@ SET row_security = off;
 SET default_tablespace = '';
 SET default_table_access_method = heap;
 
--- ##################################################################
+
 -- TABLA: __EFMigrationsHistory
--- ##################################################################
 CREATE TABLE public."__EFMigrationsHistory" (
     "MigrationId" character varying(150) NOT NULL,
     "ProductVersion" character varying(32) NOT NULL
 );
 ALTER TABLE public."__EFMigrationsHistory" OWNER TO postgres;
 
--- ##################################################################
+
 -- TABLA: categorias
--- ##################################################################
 CREATE TABLE public.categorias (
     codigo integer NOT NULL,
     descripcion character varying,
@@ -45,9 +41,7 @@ CREATE SEQUENCE public.categorias_codigo_seq
 ALTER SEQUENCE public.categorias_codigo_seq OWNER TO postgres;
 ALTER SEQUENCE public.categorias_codigo_seq OWNED BY public.categorias.codigo;
 
--- ##################################################################
 -- TABLA: foro
--- ##################################################################
 CREATE TABLE public.foro (
     codigo integer NOT NULL,
     codigo_persona integer,
@@ -67,9 +61,7 @@ CREATE SEQUENCE public.foro_codigo_seq
 ALTER SEQUENCE public.foro_codigo_seq OWNER TO postgres;
 ALTER SEQUENCE public.foro_codigo_seq OWNED BY public.foro.codigo;
 
--- ##################################################################
 -- TABLA: modulos
--- ##################################################################
 CREATE TABLE public.modulos (
     codigo integer NOT NULL,
     descripcion character varying,
@@ -89,9 +81,7 @@ CREATE SEQUENCE public.modulos_codigo_seq
 ALTER SEQUENCE public.modulos_codigo_seq OWNER TO postgres;
 ALTER SEQUENCE public.modulos_codigo_seq OWNED BY public.modulos.codigo;
 
--- ##################################################################
 -- TABLA: multimedia
--- ##################################################################
 CREATE TABLE public.multimedia (
     codigo integer NOT NULL,
     nombre character varying,
@@ -115,9 +105,7 @@ CREATE SEQUENCE public.multimedia_codigo_seq
 ALTER SEQUENCE public.multimedia_codigo_seq OWNER TO postgres;
 ALTER SEQUENCE public.multimedia_codigo_seq OWNED BY public.multimedia.codigo;
 
--- ##################################################################
 -- TABLA: personas
--- ##################################################################
 CREATE TABLE public.personas (
     codigo integer NOT NULL,
     nombre character varying,
@@ -140,9 +128,7 @@ CREATE SEQUENCE public.personas_codigo_seq
 ALTER SEQUENCE public.personas_codigo_seq OWNER TO postgres;
 ALTER SEQUENCE public.personas_codigo_seq OWNED BY public.personas.codigo;
 
--- ##################################################################
 -- TABLA: persona_multimedia
--- ##################################################################
 CREATE TABLE public.persona_multimedia (
     codigo_persona integer NOT NULL,
     codigo_multimedia integer NOT NULL,
@@ -150,9 +136,7 @@ CREATE TABLE public.persona_multimedia (
 );
 ALTER TABLE public.persona_multimedia OWNER TO postgres;
 
--- ##################################################################
 -- TABLA: publicacion
--- ##################################################################
 CREATE TABLE public.publicacion (
     codigo integer NOT NULL,
     descripcion text,
@@ -172,9 +156,7 @@ CREATE SEQUENCE public.publicacion_codigo_seq
 ALTER SEQUENCE public.publicacion_codigo_seq OWNER TO postgres;
 ALTER SEQUENCE public.publicacion_codigo_seq OWNED BY public.publicacion.codigo;
 
--- ##################################################################
 -- TABLA: usuarios
--- ##################################################################
 CREATE TABLE public.usuarios (
     usuario character varying NOT NULL,
     correo character varying,
@@ -186,9 +168,7 @@ CREATE TABLE public.usuarios (
 );
 ALTER TABLE public.usuarios OWNER TO postgres;
 
--- ##################################################################
 -- TABLA: valoraciones
--- ##################################################################
 CREATE TABLE public.valoraciones (
     codigo_valoracion integer NOT NULL,
     codigo_persona integer,
@@ -206,9 +186,7 @@ CREATE SEQUENCE public.valoraciones_codigo_valoracion_seq
 ALTER SEQUENCE public.valoraciones_codigo_valoracion_seq OWNER TO postgres;
 ALTER SEQUENCE public.valoraciones_codigo_valoracion_seq OWNED BY public.valoraciones.codigo_valoracion;
 
--- ##################################################################
 -- CONFIGURACIÓN DE VALORES POR DEFECTO
--- ##################################################################
 ALTER TABLE ONLY public.categorias ALTER COLUMN codigo SET DEFAULT nextval('public.categorias_codigo_seq'::regclass);
 ALTER TABLE ONLY public.foro ALTER COLUMN codigo SET DEFAULT nextval('public.foro_codigo_seq'::regclass);
 ALTER TABLE ONLY public.modulos ALTER COLUMN codigo SET DEFAULT nextval('public.modulos_codigo_seq'::regclass);
@@ -217,9 +195,7 @@ ALTER TABLE ONLY public.personas ALTER COLUMN codigo SET DEFAULT nextval('public
 ALTER TABLE ONLY public.publicacion ALTER COLUMN codigo SET DEFAULT nextval('public.publicacion_codigo_seq'::regclass);
 ALTER TABLE ONLY public.valoraciones ALTER COLUMN codigo_valoracion SET DEFAULT nextval('public.valoraciones_codigo_valoracion_seq'::regclass);
 
--- ##################################################################
 -- INSERCIÓN DE DATOS
--- ##################################################################
 INSERT INTO public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") VALUES
 ('20250619014552_InitialCreate', '8.0.0'),
 ('20250707031216_FixContrasenaHashColumn', '8.0.0'),
@@ -227,9 +203,9 @@ INSERT INTO public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") VAL
 ('20250707042721_AddUserTypeEnumMappingFinal', '9.0.6');
 
 INSERT INTO public.categorias (codigo, descripcion, vigencia) VALUES
-(1, 'asd', true),
-(2, 'caca', true),
-(3, 'sdf', true);
+(1, 'PrimerAño', true),
+(2, 'SegundoAño', true),
+(3, 'TercerAño', true);
 
 INSERT INTO public.personas (codigo, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, rut, vigencia) VALUES
 (12345, 'Juan', 'Perez', 'Gonzalez', '1990-05-15', 'M', '12345678-9', true),
@@ -243,9 +219,7 @@ INSERT INTO public.usuarios (usuario, correo, contrasena, tipo_usuario, codigo_p
 ('docente_user', NULL, NULL, 'Docente', 1001, NULL, '$2b$12$zoewljQl9pDfI86QiTZ7eudS45A6FgjCZW1xsIa0MOXyl8tRmeEtu'),
 ('familia_user', NULL, NULL, 'Familia', 1002, NULL, '$2b$12$wJ07hzWhiqeicm39aE5mH..gSopVc6lHaKe16.sE2kd.kSEJr2jka');
 
--- ##################################################################
 -- ACTUALIZACIÓN DE SECUENCIAS
--- ##################################################################
 SELECT pg_catalog.setval('public.categorias_codigo_seq', 3, true);
 SELECT pg_catalog.setval('public.foro_codigo_seq', 1, false);
 SELECT pg_catalog.setval('public.modulos_codigo_seq', 1, false);
@@ -257,9 +231,7 @@ SELECT pg_catalog.setval('public.multimedia_codigo_seq', 1, false);
 SELECT pg_catalog.setval('public.publicacion_codigo_seq', 1, false);
 SELECT pg_catalog.setval('public.valoraciones_codigo_valoracion_seq', 1, false);
 
--- ##################################################################
 -- DEFINICIÓN DE CLAVES PRIMARIAS (PRIMARY KEYS)
--- ##################################################################
 ALTER TABLE ONLY public."__EFMigrationsHistory" ADD CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId");
 ALTER TABLE ONLY public.categorias ADD CONSTRAINT categorias_pkey PRIMARY KEY (codigo);
 ALTER TABLE ONLY public.foro ADD CONSTRAINT foro_pkey PRIMARY KEY (codigo);
@@ -271,9 +243,7 @@ ALTER TABLE ONLY public.publicacion ADD CONSTRAINT publicacion_pkey PRIMARY KEY 
 ALTER TABLE ONLY public.usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (usuario);
 ALTER TABLE ONLY public.valoraciones ADD CONSTRAINT valoraciones_pkey PRIMARY KEY (codigo_valoracion);
 
--- ##################################################################
 -- DEFINICIÓN DE CLAVES FORÁNEAS (FOREIGN KEYS)
--- ##################################################################
 ALTER TABLE ONLY public.foro ADD CONSTRAINT foro_codigo_modulo_fkey FOREIGN KEY (codigo_modulo) REFERENCES public.modulos(codigo);
 ALTER TABLE ONLY public.foro ADD CONSTRAINT foro_codigo_persona_fkey FOREIGN KEY (codigo_persona) REFERENCES public.personas(codigo);
 ALTER TABLE ONLY public.modulos ADD CONSTRAINT modulos_codigo_categoria_fkey FOREIGN KEY (codigo_categoria) REFERENCES public.categorias(codigo);
