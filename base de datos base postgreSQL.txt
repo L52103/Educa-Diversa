@@ -224,10 +224,6 @@ SELECT pg_catalog.setval('public.categorias_codigo_seq', 3, true);
 SELECT pg_catalog.setval('public.foro_codigo_seq', 1, false);
 SELECT pg_catalog.setval('public.modulos_codigo_seq', 1, false);
 SELECT pg_catalog.setval('public.multimedia_codigo_seq', 1, false);
--- Nota: La secuencia de personas se deja sin actualizar para que los nuevos registros
--- no colisionen con los códigos insertados manualmente (1000, 1001, etc.)
--- Si deseas que el siguiente código sea 12346, descomenta la siguiente línea:
--- SELECT pg_catalog.setval('public.personas_codigo_seq', 12345, true);
 SELECT pg_catalog.setval('public.publicacion_codigo_seq', 1, false);
 SELECT pg_catalog.setval('public.valoraciones_codigo_valoracion_seq', 1, false);
 
